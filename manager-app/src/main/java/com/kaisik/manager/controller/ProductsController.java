@@ -20,4 +20,6 @@ public class ProductsController {
         return "catalogue/products/list";
     }
 
+
+
 }
