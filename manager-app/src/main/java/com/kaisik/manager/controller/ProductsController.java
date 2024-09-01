@@ -6,14 +6,11 @@ import com.kaisik.manager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("catalog/products")
+@RequestMapping("catalogue/products")
 public class ProductsController {
 
     private final ProductService productService;
@@ -32,7 +29,7 @@ public class ProductsController {
     @PostMapping("create")
     public String createProduct(NewProductPayload payload) {
         Product product = this.productService.createProduct(payload.title(), payload.details());
-        return "redirect:/catalogue/products/list";
+        return "redirect:/catalogue/products/%d".formatted(product.getId());
     }
 
 
