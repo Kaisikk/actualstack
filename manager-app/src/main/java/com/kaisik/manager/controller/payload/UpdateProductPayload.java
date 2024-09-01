@@ -1,4 +1,13 @@
 package com.kaisik.manager.controller.payload;
 
-public record UpdateProductPayload(Integer id, String title, String details) {
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+public record UpdateProductPayload(
+
+        @NotNull
+        @Size(min = 3, max = 50)
+        String title,
+        @Size(max = 1000)
+        String details) {
 }
