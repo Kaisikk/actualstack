@@ -1,8 +1,8 @@
-package com.kaisik.manager.service.impl;
+package com.kaisik.catalogue.service.impl;
 
-import com.kaisik.manager.entity.Product;
-import com.kaisik.manager.repository.ProductRepository;
-import com.kaisik.manager.service.ProductService;
+import com.kaisik.catalogue.entity.Product;
+import com.kaisik.catalogue.service.ProductService;
+import com.kaisik.catalogue.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

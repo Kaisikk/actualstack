@@ -1,10 +1,9 @@
-package com.kaisik.manager.repository;
+package com.kaisik.catalogue.repository;
 
-import com.kaisik.manager.entity.Product;
+import com.kaisik.catalogue.entity.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Repository
 public class InMemoryProductRepository implements ProductRepository {

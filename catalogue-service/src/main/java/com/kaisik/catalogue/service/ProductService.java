@@ -1,6 +1,6 @@
-package com.kaisik.manager.service;
+package com.kaisik.catalogue.service;
 
-import com.kaisik.manager.entity.Product;
+import com.kaisik.catalogue.entity.Product;
 
 import java.util.List;
 import java.util.Optional;
