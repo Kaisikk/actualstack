@@ -1,4 +1,4 @@
 package com.kaisik.entity;
 
-public record Product(int id, String tittle, String details) {
+public record Product(Integer id, String title, String details) {
 }

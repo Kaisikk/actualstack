@@ -1,8 +1,9 @@
 package com.kaisik.manager.controller;
 
+import com.kaisik.client.ProductRestClient;
+import com.kaisik.entity.Product;
 import com.kaisik.manager.controller.payload.UpdateProductPayload;
-import com.kaisik.catalogue.entity.Product;
-import com.kaisik.manager.service.ProductService;
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,13 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService productService;
+    private final ProductRestClient productRestClient;
 
     private final MessageSource messageSource;
 
     @ModelAttribute("product")
     public Product product(@PathVariable("productId") int productId) {
-        return this.productService.findProduct(productId)
+        return this.productRestClient.findProduct(productId)
                 .orElseThrow(() -> new NoSuchElementException("catalogue.errors.product.not_found"));
     }
 
@@ -53,14 +54,14 @@ public class ProductController {
                     .toList());
             return "catalogue/products/edit";
         } else {
-            this.productService.updateProduct(product.getId(), payload.title(), payload.details());
-            return "redirect:/catalogue/products/%d".formatted(product.getId());
+            this.productRestClient.updateProduct(product.id(), payload.title(), payload.details());
+            return "redirect:/catalogue/products/%d".formatted(product.id());
         }
     }
 
     @PostMapping("delete")
     public String deleteProduct(@ModelAttribute("product") Product product) {
-        this.productService.deleteProduct(product.getId());
+        this.productRestClient.deleteProduct(product.id());
         return "redirect:/catalogue/products/list";
     }
 
