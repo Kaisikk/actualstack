@@ -1,8 +1,10 @@
 package com.kaisik.client;
 
 import com.kaisik.entity.Product;
+import com.kaisik.manager.controller.payload.NewProductPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
@@ -28,7 +30,13 @@ public class RestClientProductRestClient implements ProductRestClient {
 
     @Override
     public Product createProduct(String title, String details) {
-        return null;
+        return this.restClient
+                .post()
+                .uri("/catalogue-api/products/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new NewProductPayload(title, details))
+                .retrieve()
+                .body(Product.class);
     }
 
     @Override
