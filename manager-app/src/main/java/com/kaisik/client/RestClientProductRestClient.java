@@ -5,6 +5,8 @@ import com.kaisik.manager.controller.payload.NewProductPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
@@ -30,13 +32,18 @@ public class RestClientProductRestClient implements ProductRestClient {
 
     @Override
     public Product createProduct(String title, String details) {
-        return this.restClient
-                .post()
-                .uri("/catalogue-api/products/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new NewProductPayload(title, details))
-                .retrieve()
-                .body(Product.class);
+        try {
+            return this.restClient
+                    .post()
+                    .uri("/catalogue-api/products/")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new NewProductPayload(title, details))
+                    .retrieve()
+                    .body(Product.class);
+        } catch (HttpClientErrorException.BadRequest exception) {
+            ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
+        }
     }
 
     @Override
