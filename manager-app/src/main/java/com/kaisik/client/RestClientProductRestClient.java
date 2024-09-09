@@ -2,6 +2,7 @@ package com.kaisik.client;
 
 import com.kaisik.entity.Product;
 import com.kaisik.manager.controller.payload.NewProductPayload;
+import com.kaisik.manager.controller.payload.UpdateProductPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -10,6 +11,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -48,16 +50,41 @@ public class RestClientProductRestClient implements ProductRestClient {
 
     @Override
     public Optional<Product> findProduct(int productId) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(this.restClient.get()
+                    .uri("/catalogue-api/products/{productId}", productId)
+                    .retrieve()
+                    .body(Product.class));
+        } catch (HttpClientErrorException.NotFound exception) {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public void updateProduct(int product, String title, String details) {
-
+    public void updateProduct(int productId, String title, String details) {
+        try {
+            this.restClient
+                    .patch()
+                    .uri("/catalogue-api/products/{productId}", productId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new UpdateProductPayload(title, details))
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (HttpClientErrorException.BadRequest exception) {
+            ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
+        }
     }
 
     @Override
     public void deleteProduct(int productId) {
-
+        try {
+            this.restClient.delete()
+                    .uri("/catalogue-api/products/{productId}", productId)
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (HttpClientErrorException.NotFound exception) {
+            throw new NoSuchElementException(exception);
+        }
     }
 }
