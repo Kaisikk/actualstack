@@ -1,4 +1,4 @@
-package com.kaisik.client;
+package com.kaisik.manager.client;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

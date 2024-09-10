@@ -1,7 +1,7 @@
 package com.kaisik.manager.controller;
 
-import com.kaisik.client.ProductRestClient;
-import com.kaisik.entity.Product;
+import com.kaisik.manager.client.ProductRestClient;
+import com.kaisik.manager.entity.Product;
 import com.kaisik.manager.controller.payload.NewProductPayload;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

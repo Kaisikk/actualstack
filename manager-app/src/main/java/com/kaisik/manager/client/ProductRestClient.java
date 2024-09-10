@@ -1,6 +1,6 @@
-package com.kaisik.client;
+package com.kaisik.manager.client;
 
-import com.kaisik.entity.Product;
+import com.kaisik.manager.entity.Product;
 
 import java.util.List;
 import java.util.Optional;

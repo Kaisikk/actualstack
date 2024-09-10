@@ -1,6 +1,6 @@
-package com.kaisik.client;
+package com.kaisik.manager.client;
 
-import com.kaisik.entity.Product;
+import com.kaisik.manager.entity.Product;
 import com.kaisik.manager.controller.payload.NewProductPayload;
 import com.kaisik.manager.controller.payload.UpdateProductPayload;
 import lombok.RequiredArgsConstructor;
